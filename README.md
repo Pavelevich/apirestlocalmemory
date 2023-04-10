@@ -1,19 +1,32 @@
-# apirestlocalmemory
-# Description of TransactionController
-The TransactionController class is a Spring Boot REST controller that provides REST API endpoints for managing transactions. The class has several methods, including addTransaction, getTransaction, getTransactionsByType, getCurrencies, getSumOfTransactions, countTransactions, and deleteTransaction.
+# Booking Services API
 
-The TransactionController class has a transactionMap instance variable, which is a ConcurrentHashMap that stores the transactions. The class also has a LOGGER instance variable, which is used for logging.
+Welcome to our Booking Services API project! Here you will find all the details on how to use our services to manage reservation transactions.
 
-The addTransaction method is a PUT endpoint that adds a new transaction to the transactionMap. If the transaction has a parentId, it adds the transaction as a child to the parent transaction. If the transaction is missing any required fields, the method returns a BAD_REQUEST response with an error message.
+## Endpoints
 
-The getTransaction method is a GET endpoint that retrieves a transaction from the transactionMap by its transactionId. If the transaction is not found, the method returns a NOT_FOUND response.
+We have implemented the following endpoints:
 
-The getTransactionsByType method is a GET endpoint that retrieves all transactions of a specific type from the transactionMap. The method returns a list of transaction IDs.
+- `PUT /bookingservice/transaction/{transaction_id}`: Adds a new transaction to the transaction map with the given ID. If the transaction already exists, or any of its required fields are missing, or its parent transaction does not exist or has a different currency, a corresponding error message is returned. If the transaction has a parent ID, the new transaction is added as a child to the parent transaction.
+- `GET /bookingservice/transaction/{transaction_id}`: Retrieves the transaction with the given ID from the transaction map, if it exists.
+- `GET /bookingservice/types/{type}`: Retrieves a list of transaction IDs for all transactions of the given type.
+- `GET /bookingservice/currencies`: Retrieves a list of all distinct currencies for transactions in the map.
+- `GET /bookingservice/sum/{transaction_id}`: Retrieves the sum of all transactions with the given ID and its child transactions, in the same currency as the transaction with the given ID. If the transaction with the given ID does not exist, an error message is returned.
 
-The getCurrencies method is a GET endpoint that retrieves all the unique currencies of the transactions from the transactionMap.
+## Usage
 
-The getSumOfTransactions method is a GET endpoint that retrieves the sum of all transactions under a specified transactionId. The method returns a Map with the sum and currency.
+To start using our services, simply refer to each endpoint's documentation to see how to send requests and receive responses.
 
-The countTransactions method is a GET endpoint that retrieves the number of transactions in the transactionMap.
+We have also included a collection of Postman requests with the endpoints already set up for you to test. You can find the collection in the `postman` folder.
 
-The deleteTransaction method is a DELETE endpoint that deletes a transaction from the transactionMap by its transactionId. If the transaction is not found, the method returns a NOT_FOUND response. If the transaction has children, it deletes all the children before deleting the transaction.
+There is a set of auxiliary enpoints that complete the request by turning the API into a CRUD.
+
+## Technologies Used
+
+Our API was built using Java and IntelliJ IDEA. We've also used the Spring Boot framework to implement the API endpoints.
+
+## Contributors
+
+- Pavel Hernandez Chmirenko (chmirenko2@gmail.com)
+
+Thank you for choosing our reservation service :)
+
