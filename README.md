@@ -1,5 +1,5 @@
 # apirestlocalmemory
-Description of TransactionController
+# Description of TransactionController
 The TransactionController class is a Spring Boot REST controller that provides REST API endpoints for managing transactions. The class has several methods, including addTransaction, getTransaction, getTransactionsByType, getCurrencies, getSumOfTransactions, countTransactions, and deleteTransaction.
 
 The TransactionController class has a transactionMap instance variable, which is a ConcurrentHashMap that stores the transactions. The class also has a LOGGER instance variable, which is used for logging.
