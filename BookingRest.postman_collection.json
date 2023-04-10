@@ -1,0 +1,568 @@
+{
+	"info": {
+		"_postman_id": "ac28da08-a362-41b6-9d77-774826a2afae",
+		"name": "BookingRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26143667"
+	},
+	"item": [
+		{
+			"name": "Create Transaction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"  pm.collectionVariables.set('parentId', 1);",
+							"  pm.collectionVariables.set('subParentId', 2);",
+							"  pm.collectionVariables.set('updateParentId', 3);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1.0,\n    \"currency\": \"EUR\",\n    \"type\": \"payment\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{parentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{parentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Transaction SubParent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 100.0,\n    \"currency\": \"EUR\",\n    \"type\": \"payment\",\n    \"parentId\": {{parentId}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{subParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{subParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Transaction For Update Parent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"return has base entity\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.collectionVariables.set('currency', jsonData.currency);",
+							"  pm.collectionVariables.set('type', jsonData.type);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 100.0,\n    \"currency\": \"EUR\",\n    \"type\": \"payment\",\n    \"parentId\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{updateParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{updateParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Parent in Transaction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{subParentId}}/parent/{{updateParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{subParentId}}",
+						"parent",
+						"{{updateParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transaction By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"return has base entity\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.childrenIds[0]).to.eql(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{updateParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{updateParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Transaction By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"return has base entity\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.collectionVariables.set('currency', jsonData.currency);",
+							"  pm.collectionVariables.set('type', jsonData.type);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 500.0,\n    \"currency\": \"EUR\",\n    \"type\": \"payment\",\n    \"isNewParent\":false\n\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/update/{{subParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"update",
+						"{{subParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Currencies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/currencies",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sum Of Transactions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/sum/{{updateParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"sum",
+						"{{updateParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transactions Id By Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/types/{{type}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"types",
+						"{{type}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Number Of All Transactions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/count",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Transaction By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,404]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{updateParentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{updateParentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Transaction By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful DELETE request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,404]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction/{{parentId}}",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction",
+						"{{parentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Transaction By Auto Generate Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"  pm.collectionVariables.set('parentId', 1);",
+							"  pm.collectionVariables.set('subParentId', 2);",
+							"  pm.collectionVariables.set('updateParentId', 3);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1.0,\n    \"currency\": \"EUR\",\n    \"type\": \"payment\",\n    \"parentId\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCAL_HOST}}/bookingservice/transaction",
+					"host": [
+						"{{LOCAL_HOST}}"
+					],
+					"path": [
+						"bookingservice",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "parentId",
+			"value": ""
+		},
+		{
+			"key": "subParentId",
+			"value": ""
+		},
+		{
+			"key": "updateParentId",
+			"value": ""
+		},
+		{
+			"key": "currency",
+			"value": ""
+		},
+		{
+			"key": "type",
+			"value": ""
+		}
+	]
+}
