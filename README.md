@@ -24,7 +24,7 @@ In the specific case of the TransactionController, it is an API that uses local 
 
 The advantage of using local memory is that it can provide fast data access and high performance, since data is stored in RAM, which is much faster than long-term data storage devices such as disks. hard. In addition, the use of local memory can simplify application design and implementation, which can result in greater development efficiencies and reduced data storage costs.
 
-However, there are some limitations on using a local memory. For example, if the application is stopped or restarted, data stored in local memory will be lost, unless persistence measures have been implemented to save it. Also, the amount of data that can be stored in local memory is limited by the amount of memory available on the computer. Therefore, the use of local memory may be suitable for applications that handle limited amounts of data or do not require persistent storage
+However, there are some limitations on using a local memory. For example, if the application is stopped or restarted, data stored in local memory will be lost, unless persistence measures have been implemented to save it. Also, the amount of data that can be stored in local memory is limited by the amount of memory available on the computer. Therefore, the use of local memory may be suitable for applications that handle limited amounts of data or do not require persistent storage.
 
 ## Technologies Used
 
